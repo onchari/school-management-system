@@ -20,6 +20,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,11 +40,26 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySql.Data.Entity.EF6, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.Entity.6.9.9\lib\net45\MySql.Data.Entity.EF6.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -59,9 +75,6 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -134,13 +147,62 @@
     <Compile Include="Controllers\FormsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InterfaceController.cs" />
-    <Compile Include="Controllers\StatisticsController.cs" />
+    <Compile Include="Controllers\ParentsController.cs" />
+    <Compile Include="Controllers\SchoolController.cs" />
     <Compile Include="Controllers\TablesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="HtmlHelperExtensions\MenuExtensions.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\attendance.cs">
+      <DependentUpon>SCHOOL_MODEL.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\classroom.cs">
+      <DependentUpon>SCHOOL_MODEL.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\classroom_student.cs">
+      <DependentUpon>SCHOOL_MODEL.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\course.cs">
+      <DependentUpon>SCHOOL_MODEL.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\exam.cs">
+      <DependentUpon>SCHOOL_MODEL.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\exam_results.cs">
+      <DependentUpon>SCHOOL_MODEL.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\exam_type.cs">
+      <DependentUpon>SCHOOL_MODEL.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\grade.cs">
+      <DependentUpon>SCHOOL_MODEL.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\parent.cs">
+      <DependentUpon>SCHOOL_MODEL.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SCHOOL_MODEL.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SCHOOL_MODEL.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SCHOOL_MODEL.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SCHOOL_MODEL.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SCHOOL_MODEL.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SCHOOL_MODEL.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\student.cs">
+      <DependentUpon>SCHOOL_MODEL.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\teacher.cs">
+      <DependentUpon>SCHOOL_MODEL.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\VmDashboard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -1616,10 +1678,27 @@
     <Content Include="Content\Theme\vendors\uniform\www\CNAME" />
     <Content Include="Content\Theme\vendors\uniform\www\downloads\.keep" />
     <Content Include="Content\Theme\vendors\uniform\www\stylesheets\multiple-themes.scss" />
+    <EntityDeploy Include="Models\SCHOOL_MODEL.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SCHOOL_MODEL.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\SCHOOL_MODEL.edmx.diagram">
+      <DependentUpon>SCHOOL_MODEL.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="img\glyphicons-halflings-white.png" />
     <Content Include="img\glyphicons-halflings.png" />
     <Content Include="img\jrocket.png" />
+    <Content Include="Models\SCHOOL_MODEL.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SCHOOL_MODEL.edmx</DependentUpon>
+      <LastGenOutput>SCHOOL_MODEL.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\SCHOOL_MODEL.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SCHOOL_MODEL.edmx</DependentUpon>
+      <LastGenOutput>SCHOOL_MODEL.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
@@ -1663,15 +1742,20 @@
     </Content>
     <Content Include="Views\Shared\_LeftMenu.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Statistics\Index.cshtml" />
     <Content Include="Views\Tables\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\School\Index.cshtml" />
+    <Content Include="Views\Parents\Index.cshtml" />
+    <Content Include="Views\Parents\ParentsDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

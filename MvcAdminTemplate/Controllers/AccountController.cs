@@ -28,15 +28,16 @@ namespace MvcAdminTemplate.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginViewModel model, string returnUrl)
         {
-            if (ModelState.IsValid)
-            {
-                //TODO : Do something to authenticate the user
-                return RedirectToLocal(returnUrl);
-            }
+            //if (ModelState.IsValid)
+            //{
+            //  //TODO : Do something to authenticate the user
+            //return RedirectToLocal(returnUrl);
+            //}
 
             // If we got this far, something failed, redisplay form
-            ModelState.AddModelError(String.Empty, "The user name or password provided is incorrect.");
-            return View(model);
+            //ModelState.AddModelError(String.Empty, "The user name or password provided is incorrect.");
+            // return View(model);
+            return RedirectToAction("Index", "Dashboard");
         }
 
         //
